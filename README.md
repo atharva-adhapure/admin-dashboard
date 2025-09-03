@@ -1,12 +1,82 @@
-# React + Vite
+# Admin Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive admin dashboard built with React, Vite, and TailwindCSS.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Analytics Dashboard**: Credit score distribution and loan type breakdown charts
+- **Applications Management**: View and manage loan applications with real-time status
+- **Responsive Design**: Mobile-friendly interface with TailwindCSS
+- **Modular Architecture**: Easily integrable into existing React applications
+- **TypeScript-Free**: Pure JavaScript implementation for simplicity
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **React** v19.1.1 - UI framework
+- **Vite** v7.1.4 - Build tool and development server
+- **TailwindCSS** v3.4.17 - Utility-first CSS framework
+- **ShadCN UI** - High-quality, accessible UI components
+- **React Router** v7.8.2 - Client-side routing
+- **Recharts** v3.1.2 - Data visualization library
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v16 or higher)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/atharva-adhapure/admin-dashboard.git
+cd admin-dashboard
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start the development server:
+```bash
+npm run dev
+```
+
+4. Open your browser and navigate to `http://localhost:5173`
+
+## Project Structure
+
+```
+src/
+├── components/          # Reusable UI components
+│   ├── ui/             # ShadCN UI components
+│   ├── AnalyticsCharts.jsx
+│   ├── ApplicationsTable.jsx
+│   ├── DashboardCard.jsx
+│   └── Navbar.jsx
+├── pages/              # Page components
+│   ├── Analytics.jsx
+│   └── Applications.jsx
+├── data/               # Mock data
+│   ├── applications.js
+│   └── users.js
+├── App.jsx             # Main application component
+└── index.js            # Export module for integration
+```
+
+## Integration
+
+This dashboard can be easily integrated into existing React applications. See `INTEGRATION.md` for detailed integration instructions.
+
+## Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
+
+## License
+
+MIT License
