@@ -83,10 +83,7 @@ const ApplicationsTable = ({ applications }) => {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-semibold text-sm">
-                        {application.name.split(' ').map(n => n[0]).join('')}
-                      </div>
+                    <div className="flex items-center">
                       <div>
                         <div className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
                           {application.name}
