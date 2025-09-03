@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -10,18 +10,84 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-const ApplicationsTable = ({ applications }) => {
-  const getStatusColor = (status) => {
-    switch (status.toLowerCase()) {
-      case 'approved':
-        return 'bg-green-100 text-green-800 hover:bg-green-200';
-      case 'rejected':
-        return 'bg-red-100 text-red-800 hover:bg-red-200';
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200';
-      default:
-        return 'bg-gray-100 text-gray-800 hover:bg-gray-200';
+const ApplicationsTable = ({ applications, onStatusChange }) => {
+  const [updatingStatus, setUpdatingStatus] = useState(null);
+
+  const handleStatusChange = async (applicationId, newStatus) => {
+    setUpdatingStatus(applicationId);
+    try {
+      if (onStatusChange) {
+        await onStatusChange(applicationId, newStatus);
+      }
+    } catch (error) {
+      console.error('Failed to update status:', error);
+    } finally {
+      setUpdatingStatus(null);
     }
+  };
+
+  const StatusDropdown = ({ application }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const currentStatus = application.status || 'Under Scrutiny';
+    
+    const statuses = [
+      { value: 'Under Scrutiny', label: 'Under Scrutiny', color: 'bg-yellow-100 text-yellow-800' },
+      { value: 'Approved', label: 'Approved', color: 'bg-green-100 text-green-800' },
+      { value: 'Rejected', label: 'Rejected', color: 'bg-red-100 text-red-800' }
+    ];
+
+    const currentStatusObj = statuses.find(s => s.value === currentStatus) || statuses[0];
+    
+    // Disable dropdown if status is not "Under Scrutiny"
+    const isEditable = currentStatus === 'Under Scrutiny';
+
+    return (
+      <div className="relative">
+        <button
+          onClick={() => isEditable && setIsOpen(!isOpen)}
+          disabled={updatingStatus === application.id || !isEditable}
+          className={`${currentStatusObj.color} font-medium px-3 py-1.5 text-xs rounded-full border transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 disabled:opacity-50 flex items-center space-x-2 ${
+            isEditable ? 'hover:shadow-sm cursor-pointer' : 'cursor-not-allowed opacity-75'
+          }`}
+        >
+          <div className={`w-1.5 h-1.5 rounded-full ${
+            currentStatus === 'Approved' ? 'bg-green-600' :
+            currentStatus === 'Rejected' ? 'bg-red-600' : 'bg-yellow-600'
+          }`}></div>
+          <span>{updatingStatus === application.id ? 'Updating...' : currentStatus}</span>
+          {isEditable && (
+            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          )}
+        </button>
+        
+        {isOpen && isEditable && (
+          <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[140px] overflow-hidden">
+            {statuses.map((status) => (
+              <button
+                key={status.value}
+                onClick={() => {
+                  if (status.value !== currentStatus) {
+                    handleStatusChange(application.id, status.value);
+                  }
+                  setIsOpen(false);
+                }}
+                className={`w-full text-left px-3 py-2 text-xs hover:bg-gray-50 transition-colors flex items-center space-x-2 ${
+                  status.value === currentStatus ? 'bg-blue-50 text-blue-800' : 'text-gray-700 bg-white'
+                }`}
+              >
+                <div className={`w-1.5 h-1.5 rounded-full ${
+                  status.value === 'Approved' ? 'bg-green-600' :
+                  status.value === 'Rejected' ? 'bg-red-600' : 'bg-yellow-600'
+                }`}></div>
+                <span>{status.label}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    );
   };
 
   const getCreditScoreColor = (score, requiredScore) => {
@@ -123,15 +189,7 @@ const ApplicationsTable = ({ applications }) => {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Badge className={`${getStatusColor(application.status)} font-medium px-3 py-1.5 text-xs`}>
-                      <div className="flex items-center space-x-1">
-                        <div className={`w-1.5 h-1.5 rounded-full ${
-                          application.status === 'Approved' ? 'bg-green-600' :
-                          application.status === 'Rejected' ? 'bg-red-600' : 'bg-yellow-600'
-                        }`}></div>
-                        <span>{application.status}</span>
-                      </div>
-                    </Badge>
+                    <StatusDropdown application={application} />
                   </TableCell>
                 </TableRow>
               ))}

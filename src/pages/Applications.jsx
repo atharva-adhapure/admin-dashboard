@@ -4,7 +4,23 @@ import DashboardCard from '../components/DashboardCard';
 import { applications } from '../data/applications';
 
 const Applications = () => {
-  const [applicationsList] = useState(applications);
+  const [applicationsList, setApplicationsList] = useState(applications);
+
+  // Handle status change
+  const handleStatusChange = async (applicationId, newStatus) => {
+    // Update local state immediately for better UX
+    setApplicationsList(prevApps => 
+      prevApps.map(app => 
+        app.id === applicationId 
+          ? { ...app, status: newStatus }
+          : app
+      )
+    );
+
+    // Here you would typically make an API call to update the database
+    // Example: await updateApplicationStatus(applicationId, newStatus);
+    console.log(`Updated application ${applicationId} to status: ${newStatus}`);
+  };
 
   // Calculate statistics
   const totalApplications = applicationsList.length;
@@ -62,7 +78,10 @@ const Applications = () => {
           </div>
 
           {/* Applications Table */}
-          <ApplicationsTable applications={applicationsList} />
+          <ApplicationsTable 
+            applications={applicationsList} 
+            onStatusChange={handleStatusChange}
+          />
         </div>
       </main>
     </div>
