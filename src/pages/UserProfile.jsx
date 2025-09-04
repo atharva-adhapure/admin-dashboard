@@ -70,7 +70,7 @@ const UserProfile = () => {
           <p className="text-gray-600 mb-6">{error}</p>
           <Button onClick={() => navigate('/applications')} className="bg-blue-600 hover:bg-blue-700">
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Applications
+            Back
           </Button>
         </div>
       </div>
@@ -82,20 +82,20 @@ const UserProfile = () => {
       <main className="max-w-4xl mx-auto py-8 sm:px-6 lg:px-8">
         <div className="px-4 sm:px-0">
           {/* Header with Back Button */}
-          <div className="mb-8 flex items-center">
-            <div className="flex items-center space-x-4">
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-6">
               <Button
                 onClick={() => navigate('/applications')}
                 variant="outline"
                 className="hover:bg-gray-50"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Applications
+                Back
               </Button>
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900">Profile</h1>
-                <p className="text-gray-600">Manage your personal information and preferences</p>
-              </div>
+            </div>
+            <div className="text-center">
+              <h1 className="text-3xl font-bold text-gray-900">Profile</h1>
+              <p className="text-gray-600">Manage your personal information and preferences</p>
             </div>
           </div>
 
@@ -229,17 +229,6 @@ const UserProfile = () => {
               </div>
             </CardContent>
           </Card>
-
-          {/* Additional Information */}
-          <div className="mt-8 text-center">
-            <p className="text-sm text-gray-500">
-              Member since {new Date(user.joinDate).toLocaleDateString('en-US', { 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-              })}
-            </p>
-          </div>
         </div>
       </main>
     </div>

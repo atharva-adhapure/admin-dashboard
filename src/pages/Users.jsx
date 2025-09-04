@@ -117,10 +117,6 @@ const Users = ({ setPage }) => {
                     <span className="text-muted-foreground">Total Loans:</span>
                     <span>{user.totalLoans}</span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Member Since:</span>
-                    <span>{new Date(user.joinDate).toLocaleDateString()}</span>
-                  </div>
                 </div>
                 <div className="flex gap-2 mt-4">
                   <Button size="sm" variant="outline" className="flex-1">

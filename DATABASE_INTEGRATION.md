@@ -11,13 +11,27 @@ This guide will help you connect your React Admin Dashboard to MongoDB for dynam
 
 ## 🏗️ **Database Structure**
 
+### **⚡ MongoDB ObjectId vs CustomerId Approach**
+
+This dashboard uses a **dual-identifier system** to prevent conflicts between MongoDB's auto-generated `_id` fields and business logic identifiers:
+
+- **`_id`**: MongoDB's auto-generated primary key (ObjectId)
+- **`customerId`**: Business identifier for frontend routing and user-friendly references
+
+**Benefits:**
+- ✅ No field name conflicts with MongoDB
+- ✅ Clean URL routing (`/profile/1` instead of `/profile/507f1f77bcf86cd799439011`)
+- ✅ Easier frontend development and debugging
+- ✅ Backward compatibility with existing mock data
+- ✅ Database relationships using both ObjectId references and business IDs
+
 ### **Collections:**
 
 #### **1. Users Collection**
 ```javascript
 {
-  _id: ObjectId,
-  id: Number,
+  _id: ObjectId, // MongoDB auto-generated primary key
+  customerId: String, // Business identifier ("1", "2", "3", etc.)
   name: String,
   email: String,
   phone: String,
@@ -25,19 +39,16 @@ This guide will help you connect your React Admin Dashboard to MongoDB for dynam
   occupation: String,
   pancardNumber: String,
   annualIncome: String,
-  creditScore: Number,
-  joinDate: Date,
-  createdAt: Date,
-  updatedAt: Date
+  creditScore: Number
 }
 ```
 
 #### **2. Applications Collection**
 ```javascript
 {
-  _id: ObjectId,
-  id: Number,
-  userId: ObjectId, // Reference to Users collection
+  _id: ObjectId, // MongoDB auto-generated primary key
+  customerId: String, // Business identifier ("1", "2", "3", etc.)
+  userId: ObjectId, // Reference to Users collection _id
   name: String,
   creditScore: Number,
   loanType: String, // "Home Loan", "Car Loan", etc.
@@ -47,9 +58,7 @@ This guide will help you connect your React Admin Dashboard to MongoDB for dynam
   amount: String,
   reviewedBy: ObjectId,
   reviewedAt: Date,
-  rejectionReason: String,
-  createdAt: Date,
-  updatedAt: Date
+  rejectionReason: String
 }
 ```
 
@@ -59,17 +68,17 @@ This guide will help you connect your React Admin Dashboard to MongoDB for dynam
 
 #### **User Endpoints:**
 - `GET /api/users` - Get all users
-- `GET /api/users/:id` - Get user by ID
+- `GET /api/users/:customerId` - Get user by customerId
 - `POST /api/users` - Create new user
-- `PUT /api/users/:id` - Update user
-- `DELETE /api/users/:id` - Delete user
+- `PUT /api/users/:customerId` - Update user
+- `DELETE /api/users/:customerId` - Delete user
 
 #### **Application Endpoints:**
 - `GET /api/applications` - Get all applications
-- `GET /api/applications/:id` - Get application by ID
+- `GET /api/applications/:customerId` - Get application by customerId
 - `POST /api/applications` - Create new application
-- `PATCH /api/applications/:id/status` - Update application status
-- `GET /api/users/:id/applications` - Get user's applications
+- `PATCH /api/applications/:customerId/status` - Update application status
+- `GET /api/users/:customerId/applications` - Get user's applications
 
 #### **Analytics Endpoints:**
 - `GET /api/analytics/dashboard` - Get dashboard statistics
@@ -153,10 +162,10 @@ The dashboard includes:
 
 ## 📝 **Sample API Response Formats**
 
-### **GET /api/users/:id**
+### **GET /api/users/:customerId**
 ```json
 {
-  "id": 1,
+  "customerId": "1",
   "name": "Alice Williams",
   "email": "alice.williams@email.com",
   "phone": "+1 (555) 123-4567",
@@ -164,8 +173,7 @@ The dashboard includes:
   "occupation": "Software Engineer",
   "pancardNumber": "BXER4568VD",
   "annualIncome": "$95,000",
-  "creditScore": 720,
-  "joinDate": "2023-01-15T00:00:00.000Z"
+  "creditScore": 720
 }
 ```
 
@@ -173,8 +181,8 @@ The dashboard includes:
 ```json
 [
   {
-    "id": 1,
-    "userId": 1,
+    "customerId": "1",
+    "userId": "507f1f77bcf86cd799439011", // MongoDB ObjectId reference
     "name": "Alice Williams",
     "creditScore": 720,
     "loanType": "Home Loan",
@@ -186,7 +194,7 @@ The dashboard includes:
 ]
 ```
 
-### **PATCH /api/applications/:id/status**
+### **PATCH /api/applications/:customerId/status**
 ```json
 {
   "status": "Approved"

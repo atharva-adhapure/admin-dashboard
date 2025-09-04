@@ -4,7 +4,7 @@
 // User Schema
 const UserSchema = {
   _id: "ObjectId",
-  id: "Number", // Unique identifier
+  customerId: "String", // Business identifier ("1", "2", "3", etc.)
   name: "String", // Full name
   email: "String", // Email address (unique)
   phone: "String", // Phone number
@@ -12,16 +12,13 @@ const UserSchema = {
   occupation: "String", // Job title/profession
   pancardNumber: "String", // PAN card number
   annualIncome: "String", // Annual income (formatted with $)
-  creditScore: "Number", // Credit score (0-900)
-  joinDate: "Date", // Registration date
-  createdAt: "Date",
-  updatedAt: "Date"
+  creditScore: "Number" // Credit score (0-900)
 };
 
 // Application Schema
 const ApplicationSchema = {
   _id: "ObjectId",
-  id: "Number", // Unique identifier
+  customerId: "String", // Business identifier ("1", "2", "3", etc.)
   userId: "ObjectId", // Reference to User
   name: "String", // Applicant name (denormalized for quick access)
   creditScore: "Number", // Credit score at time of application
@@ -32,9 +29,7 @@ const ApplicationSchema = {
   amount: "String", // Loan amount (formatted with $)
   reviewedBy: "ObjectId", // Reference to admin who reviewed (optional)
   reviewedAt: "Date", // Date of review (optional)
-  rejectionReason: "String", // Reason for rejection (optional)
-  createdAt: "Date",
-  updatedAt: "Date"
+  rejectionReason: "String" // Reason for rejection (optional)
 };
 
 // Analytics Schema (for caching calculated values)
