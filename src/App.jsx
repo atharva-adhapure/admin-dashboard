@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Analytics from './pages/Analytics';
 import Applications from './pages/Applications';
+import UserProfile from './pages/UserProfile';
 import Navbar from './components/Navbar';
 import './App.css';
 
@@ -14,6 +15,7 @@ const AdminDashboard = () => {
         <Route path="/" element={<Analytics />} />
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/applications" element={<Applications />} />
+        <Route path="/profile/:userId" element={<UserProfile />} />
       </Routes>
     </div>
   );

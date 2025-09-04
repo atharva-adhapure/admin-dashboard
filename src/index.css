@@ -70,6 +70,74 @@ button {
   outline: none;
 }
 
+/* Clickable Text Styles (for non-button clickable elements) */
+.clickable-text {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  text-align: inherit !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+
+/* Consistent Link Styling */
+.text-link {
+  color: #2563eb !important;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.text-link:hover {
+  color: #1d4ed8 !important;
+  text-decoration: underline;
+}
+
+.text-link:focus {
+  outline: 2px solid #198ae6;
+  outline-offset: 2px;
+}
+
+/* Consistent Button Styling */
+.btn-refresh {
+  padding: 0.5rem;
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  color: #6b7280;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+}
+
+.btn-refresh:hover {
+  color: #2563eb;
+  border-color: #93c5fd;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.btn-refresh:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-refresh:focus {
+  outline: 2px solid #198ae6;
+  outline-offset: 2px;
+}
+
 button:focus-visible {
   outline: 2px solid #198ae6;
   outline-offset: 2px;

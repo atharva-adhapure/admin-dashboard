@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -12,6 +13,7 @@ import {
 
 const ApplicationsTable = ({ applications, onStatusChange }) => {
   const [updatingStatus, setUpdatingStatus] = useState(null);
+  const navigate = useNavigate();
 
   const handleStatusChange = async (applicationId, newStatus) => {
     setUpdatingStatus(applicationId);
@@ -24,6 +26,10 @@ const ApplicationsTable = ({ applications, onStatusChange }) => {
     } finally {
       setUpdatingStatus(null);
     }
+  };
+
+  const handleUserClick = (applicationId) => {
+    navigate(`/profile/${applicationId}`);
   };
 
   const StatusDropdown = ({ application }) => {
@@ -151,9 +157,12 @@ const ApplicationsTable = ({ applications, onStatusChange }) => {
                   <TableCell>
                     <div className="flex items-center">
                       <div>
-                        <div className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                        <span
+                          onClick={() => handleUserClick(application.id)}
+                          className="text-link"
+                        >
                           {application.name}
-                        </div>
+                        </span>
                         <div className="text-xs text-gray-500">ID: {application.id}</div>
                       </div>
                     </div>
